@@ -48,6 +48,14 @@ type Tweet struct {
 	QuotedStatusID       int64                  `json:"quoted_status_id"`
 	QuotedStatusIDStr    string                 `json:"quoted_status_id_str"`
 	QuotedStatus         *Tweet                 `json:"quoted_status"`
+	IsQuoteStatus        bool                   `json:"is_quote_status"`
+	MatchingRules        []Rule                 `json:"matching_rules"`
+}
+
+type Rule struct {
+	Tag   string `json:"tag"`
+	ID    int64  `json:"id"`
+	IDStr string `json:"id_str"`
 }
 
 // CreatedAtTime returns the time a tweet was created.
