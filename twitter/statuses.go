@@ -11,51 +11,60 @@ import (
 // Tweet represents a Twitter Tweet, previously called a status.
 // https://dev.twitter.com/overview/api/tweets
 type Tweet struct {
-	Coordinates          *Coordinates           `json:"coordinates"`
-	CreatedAt            string                 `json:"created_at"`
-	CurrentUserRetweet   *TweetIdentifier       `json:"current_user_retweet"`
-	Entities             *Entities              `json:"entities"`
-	FavoriteCount        int                    `json:"favorite_count"`
-	Favorited            bool                   `json:"favorited"`
-	FilterLevel          string                 `json:"filter_level"`
-	ID                   int64                  `json:"id"`
-	IDStr                string                 `json:"id_str"`
-	InReplyToScreenName  string                 `json:"in_reply_to_screen_name"`
-	InReplyToStatusID    int64                  `json:"in_reply_to_status_id"`
-	InReplyToStatusIDStr string                 `json:"in_reply_to_status_id_str"`
-	InReplyToUserID      int64                  `json:"in_reply_to_user_id"`
-	InReplyToUserIDStr   string                 `json:"in_reply_to_user_id_str"`
-	Lang                 string                 `json:"lang"`
-	PossiblySensitive    bool                   `json:"possibly_sensitive"`
-	QuoteCount           int                    `json:"quote_count"`
-	ReplyCount           int                    `json:"reply_count"`
-	RetweetCount         int                    `json:"retweet_count"`
-	Retweeted            bool                   `json:"retweeted"`
-	RetweetedStatus      *Tweet                 `json:"retweeted_status"`
-	Source               string                 `json:"source"`
-	Scopes               map[string]interface{} `json:"scopes"`
-	Text                 string                 `json:"text"`
-	FullText             string                 `json:"full_text"`
-	DisplayTextRange     Indices                `json:"display_text_range"`
-	Place                *Place                 `json:"place"`
-	Truncated            bool                   `json:"truncated"`
-	User                 *User                  `json:"user"`
-	WithheldCopyright    bool                   `json:"withheld_copyright"`
-	WithheldInCountries  []string               `json:"withheld_in_countries"`
-	WithheldScope        string                 `json:"withheld_scope"`
-	ExtendedEntities     *ExtendedEntity        `json:"extended_entities"`
-	ExtendedTweet        *ExtendedTweet         `json:"extended_tweet"`
-	QuotedStatusID       int64                  `json:"quoted_status_id"`
-	QuotedStatusIDStr    string                 `json:"quoted_status_id_str"`
-	QuotedStatus         *Tweet                 `json:"quoted_status"`
-	IsQuoteStatus        bool                   `json:"is_quote_status"`
-	MatchingRules        []Rule                 `json:"matching_rules"`
+	Coordinates           *Coordinates           `json:"coordinates"`
+	CreatedAt             string                 `json:"created_at"`
+	CurrentUserRetweet    *TweetIdentifier       `json:"current_user_retweet"`
+	Entities              *Entities              `json:"entities"`
+	FavoriteCount         int                    `json:"favorite_count"`
+	Favorited             bool                   `json:"favorited"`
+	FilterLevel           string                 `json:"filter_level"`
+	ID                    int64                  `json:"id"`
+	IDStr                 string                 `json:"id_str"`
+	InReplyToScreenName   string                 `json:"in_reply_to_screen_name"`
+	InReplyToStatusID     int64                  `json:"in_reply_to_status_id"`
+	InReplyToStatusIDStr  string                 `json:"in_reply_to_status_id_str"`
+	InReplyToUserID       int64                  `json:"in_reply_to_user_id"`
+	InReplyToUserIDStr    string                 `json:"in_reply_to_user_id_str"`
+	Lang                  string                 `json:"lang"`
+	PossiblySensitive     bool                   `json:"possibly_sensitive"`
+	QuoteCount            int                    `json:"quote_count"`
+	ReplyCount            int                    `json:"reply_count"`
+	RetweetCount          int                    `json:"retweet_count"`
+	Retweeted             bool                   `json:"retweeted"`
+	RetweetedStatus       *Tweet                 `json:"retweeted_status"`
+	Source                string                 `json:"source"`
+	Scopes                map[string]interface{} `json:"scopes"`
+	Text                  string                 `json:"text"`
+	FullText              string                 `json:"full_text"`
+	DisplayTextRange      Indices                `json:"display_text_range"`
+	Place                 *Place                 `json:"place"`
+	Truncated             bool                   `json:"truncated"`
+	User                  *User                  `json:"user"`
+	WithheldCopyright     bool                   `json:"withheld_copyright"`
+	WithheldInCountries   []string               `json:"withheld_in_countries"`
+	WithheldScope         string                 `json:"withheld_scope"`
+	ExtendedEntities      *ExtendedEntity        `json:"extended_entities"`
+	ExtendedTweet         *ExtendedTweet         `json:"extended_tweet"`
+	QuotedStatusID        int64                  `json:"quoted_status_id"`
+	QuotedStatusIDStr     string                 `json:"quoted_status_id_str"`
+	QuotedStatus          *Tweet                 `json:"quoted_status"`
+	IsQuoteStatus         bool                   `json:"is_quote_status"`
+	MatchingRules         []Rule                 `json:"matching_rules"`
+	QuotedStatusPermalink *QuotedStatusPermalink `json:"quoted_status_permalink"`
 }
 
+// Rule represents which rule matched a tweet.
 type Rule struct {
 	Tag   string `json:"tag"`
 	ID    int64  `json:"id"`
 	IDStr string `json:"id_str"`
+}
+
+// QuotedStatusPermalink holds a permalink for a particular status.
+type QuotedStatusPermalink struct {
+	URL         string `json:"url"`
+	ExpandedURL string `json:"expanded"`
+	DisplayURL  string `json:"display"`
 }
 
 // CreatedAtTime returns the time a tweet was created.
