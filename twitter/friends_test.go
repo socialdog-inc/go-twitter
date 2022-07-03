@@ -67,3 +67,28 @@ func TestFriendService_List(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, expected, friends)
 }
+
+func TestFriendshipService_Lookup(t *testing.T) {
+	httpClient, mux, server := testServer()
+	defer server.Close()
+
+	mux.HandleFunc("/1.1/friendships/lookup.json", func(w http.ResponseWriter, r *http.Request) {
+		assertMethod(t, "GET", r)
+		assertQuery(t, map[string]string{"user_id": "1,2", "screen_name": "jay,silentbob"}, r)
+		w.Header().Set("Content-Type", "application/json")
+		fmt.Fprintf(w, `[{"name": "a test bot","screen_name": "testbot","id": 314159,"id_str": "314159","connections": ["following"]}]`)
+	})
+
+	expected := &[]FriendshipResponse{
+		{Name: "a test bot", ScreenName: "testbot", ID: 314159, IDStr: "314159", Connections: []string{"following"}},
+	}
+
+	client := NewClient(httpClient)
+	params := &FriendshipLookupParams{
+		UserID:     []int64{1, 2},
+		ScreenName: []string{"jay", "silentbob"},
+	}
+	friendIDs, _, err := client.Friendships.Lookup(params)
+	assert.Nil(t, err)
+	assert.Equal(t, expected, friendIDs)
+}

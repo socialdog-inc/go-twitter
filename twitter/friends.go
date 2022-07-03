@@ -71,3 +71,29 @@ func (s *FriendService) List(params *FriendListParams) (*Friends, *http.Response
 	resp, err := s.sling.New().Get("list.json").QueryStruct(params).Receive(friends, apiError)
 	return friends, resp, relevantError(err, *apiError)
 }
+
+// FriendshipLookupParams are the parameters for FriendshipService.Lookup
+type FriendshipLookupParams struct {
+	UserID     []int64  `url:"user_id,omitempty,comma"`
+	ScreenName []string `url:"screen_name,omitempty,comma"`
+}
+
+// FriendshipResponse represents a single returned friend
+type FriendshipResponse struct {
+	ID          int64    `json:"id"`
+	IDStr       string   `json:"id_str"`
+	ScreenName  string   `json:"screen_name"`
+	Name        string   `json:"name"`
+	Connections []string `json:"connections"`
+}
+
+// Lookup returns the relationships of the current user to the provided list
+// of screen names and user ids. Note that no more than 100 users may
+// be specified.
+// https://dev.twitter.com/rest/reference/get/friendships/lookup
+func (s *FriendshipService) Lookup(params *FriendshipLookupParams) (*[]FriendshipResponse, *http.Response, error) {
+	ids := new([]FriendshipResponse)
+	apiError := new(APIError)
+	resp, err := s.sling.New().Get("lookup.json").QueryStruct(params).Receive(ids, apiError)
+	return ids, resp, relevantError(err, *apiError)
+}
