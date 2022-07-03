@@ -23,6 +23,15 @@ type URLEntity struct {
 	DisplayURL  string  `json:"display_url"`
 	ExpandedURL string  `json:"expanded_url"`
 	URL         string  `json:"url"`
+	Unwound     Unwound `json:"unwound"`
+}
+
+// Unwound contains extra information about a URL
+type Unwound struct {
+	URL         string `json:"url"`
+	Status      int64  `json:"status"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
 }
 
 // MediaEntity represents media elements associated with a Tweet.
