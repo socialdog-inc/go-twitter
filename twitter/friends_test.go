@@ -74,19 +74,18 @@ func TestFriendshipService_Lookup(t *testing.T) {
 
 	mux.HandleFunc("/1.1/friendships/lookup.json", func(w http.ResponseWriter, r *http.Request) {
 		assertMethod(t, "GET", r)
-		assertQuery(t, map[string]string{"user_id": "1,2", "screen_name": "jay,silentbob"}, r)
+		assertQuery(t, map[string]string{"user_id": "123,214"}, r)
 		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprintf(w, `[{"name": "a test bot","screen_name": "testbot","id": 314159,"id_str": "314159","connections": ["following"]}]`)
+		fmt.Fprintf(w, `[{"name": "andy piper (pipes)","screen_name": "andypiper","id": 786491,"id_str": "786491","connections": ["following"]}]`)
 	})
 
 	expected := &[]FriendshipResponse{
-		{Name: "a test bot", ScreenName: "testbot", ID: 314159, IDStr: "314159", Connections: []string{"following"}},
+		{Name: "andy piper (pipes)", ScreenName: "andypiper", ID: 786491, IDStr: "786491", Connections: []string{"following"}},
 	}
 
 	client := NewClient(httpClient)
 	params := &FriendshipLookupParams{
-		UserID:     []int64{1, 2},
-		ScreenName: []string{"jay", "silentbob"},
+		UserID: []int64{123, 214},
 	}
 	friendIDs, _, err := client.Friendships.Lookup(params)
 	assert.Nil(t, err)
