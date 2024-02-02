@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 module github.com/drswork/go-twitter
+=======
+module github.com/socialdog-inc/go-twitter
+>>>>>>> Stashed changes
 
 go 1.17
 

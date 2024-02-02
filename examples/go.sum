@@ -4,8 +4,15 @@ github.com/cenkalti/backoff v2.1.1+incompatible/go.mod h1:90ReRw6GdpyfrHakVjL/QH
 github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f h1:lBNOc5arjvs8E5mO2tbpBpLoyyu8B6e44T7hJy6potg=
 github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f/go.mod h1:E3G3o1h8I7cfcXa63jLwjI0eiQQMgzzUDFVpN/nH/eA=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+<<<<<<< Updated upstream
 github.com/dghubble/go-twitter v0.0.0-20190512073027-53f972dc4b06 h1:eg2cM+xR5Bgm4hgJ5xmtbOkgDAJSOXP4WGr2hEFdqe4=
 github.com/dghubble/go-twitter v0.0.0-20190512073027-53f972dc4b06/go.mod h1:6beqTZaXeBPti9pDBcBEqxfJc7uCbSafqZPRDPQOKoM=
+=======
+github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
+github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/socialdog-inc/go-twitter v0.0.0-20220716034336-7f63262ef83a h1:QDqWWmsz3yf+li4eq4ydnMQUBGiwagNlgRkv0MuALxg=
+github.com/socialdog-inc/go-twitter v0.0.0-20220716034336-7f63262ef83a/go.mod h1:q7VYuSasPO79IE/QBNAMYVNlzZNy4Zr7vay6is50u5I=
+>>>>>>> Stashed changes
 github.com/dghubble/oauth1 v0.6.0 h1:m1yC01Ohc/eF38jwZ8JUjL1a+XHHXtGQgK+MxQbmSx0=
 github.com/dghubble/oauth1 v0.6.0/go.mod h1:8pFdfPkv/jr8mkChVbNVuJ0suiHe278BtWI4Tk1ujxk=
 github.com/dghubble/sling v1.3.0 h1:pZHjCJq4zJvc6qVQ5wN1jo5oNZlNE0+8T/h0XeXBUKU=

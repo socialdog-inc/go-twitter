@@ -1,4 +1,10 @@
+<<<<<<< Updated upstream
 # go-twitter [![Build Status](https://github.com/drswork/go-twitter/workflows/test/badge.svg)](https://github.com/drswork/go-twitter/actions?query=workflow%3Atest+branch%3Amaster) [![GoDoc](https://godoc.org/github.com/drswork/go-twitter?status.svg)](https://godoc.org/github.com/drswork/go-twitter)
+=======
+# go-twitter [![GoDoc](https://pkg.go.dev/badge/github.com/socialdog-inc/go-twitter.svg)](https://pkg.go.dev/github.com/socialdog-inc/go-twitter) [![Workflow](https://github.com/socialdog-inc/go-twitter/actions/workflows/test.yaml/badge.svg)](https://github.com/socialdog-inc/go-twitter/actions/workflows/test.yaml?query=branch%3Amain) [![Sponsors](https://img.shields.io/github/sponsors/dghubble?logo=github)](https://github.com/sponsors/dghubble) [![Twitter](https://img.shields.io/badge/twitter-follow-1da1f2?logo=twitter)](https://twitter.com/dghubble)
+
+**DEPRECATED** As of Nov 2022, the go-twitter API library is no longer being developed. If you fork this repo, please remove the logo since it is not covered by the license.
+>>>>>>> Stashed changes
 
 <img align="right" src="https://storage.googleapis.com/dghubble/gopher-on-bird.png">
 
@@ -32,11 +38,19 @@ This is a fork of the [original Go Twitter API](https://github.com/dghubble/go-t
 
 ## Install
 
+<<<<<<< Updated upstream
     go get github.com/drswork/go-twitter/twitter
 
 ## Documentation
 
 Read [GoDoc](https://godoc.org/github.com/drswork/go-twitter/twitter)
+=======
+    go get github.com/socialdog-inc/go-twitter/twitter
+
+## Documentation
+
+Read [GoDoc](https://godoc.org/github.com/socialdog-inc/go-twitter/twitter)
+>>>>>>> Stashed changes
 
 ## Usage
 
@@ -229,7 +243,11 @@ For example, make requests as a consumer application on behalf of a user who has
 ```go
 // OAuth1
 import (
+<<<<<<< Updated upstream
     "github.com/drswork/go-twitter/twitter"
+=======
+    "github.com/socialdog-inc/go-twitter/twitter"
+>>>>>>> Stashed changes
     "github.com/dghubble/oauth1"
 )
 
@@ -247,7 +265,11 @@ If no user auth context is needed, make requests as your application with applic
 ```go
 // OAuth2
 import (
+<<<<<<< Updated upstream
     "github.com/drswork/go-twitter/twitter"
+=======
+    "github.com/socialdog-inc/go-twitter/twitter"
+>>>>>>> Stashed changes
     "golang.org/x/oauth2"
     "golang.org/x/oauth2/clientcredentials"
 )
