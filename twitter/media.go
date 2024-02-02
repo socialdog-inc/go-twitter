@@ -16,6 +16,7 @@ const chunkSize = 1024 * 1024
 // docs say 15M so we'll go with that.
 const maxSize = 15 * 1024 * 1024
 
+// MediaService provides methods for accessing twitter media APIs.
 type MediaService struct {
 	sling *sling.Sling
 }
@@ -46,10 +47,12 @@ type mediaAppendParams struct {
 	SegmentIndex int    `url:"segment_index"`
 }
 
+// MediaVideoInfo holds information about media identified as videos.
 type MediaVideoInfo struct {
 	VideoType string `json:"video_type"`
 }
 
+// MediaProcessingInfo holds information about pending media uploads.
 type MediaProcessingInfo struct {
 	State           string                `json:"state"`
 	CheckAfterSecs  int                   `json:"check_after_secs"`
@@ -57,6 +60,8 @@ type MediaProcessingInfo struct {
 	Error           *MediaProcessingError `json:"error"`
 }
 
+// MediaProcessingError holds information about pending media
+// processing failures.
 type MediaProcessingError struct {
 	Code    int    `json:"code"`
 	Name    string `json:"name"`
@@ -96,21 +101,10 @@ func (m *MediaService) Upload(media []byte, mediaType string) (*MediaUploadResul
 		return nil, nil, fmt.Errorf("file size of %v exceeds twitter maximum %v", len(media), maxSize)
 	}
 
-	params := &mediaInitParams{
-		Command:    "INIT",
-		TotalBytes: len(media),
-		MediaType:  mediaType,
+	mediaID, err := m.UploadInit(len(media), mediaType)
+	if err != nil {
+		return nil, nil, err
 	}
-	res := new(mediaInitResult)
-	apiError := new(APIError)
-
-	resp, err := m.sling.New().Post("upload.json").BodyForm(params).Receive(res, apiError)
-
-	if relevantError(err, *apiError) != nil {
-		return nil, resp, relevantError(err, *apiError)
-	}
-
-	mediaID := res.MediaID
 
 	segments := int(len(media) / chunkSize)
 	for segment := 0; segment <= segments; segment++ {
@@ -121,27 +115,65 @@ func (m *MediaService) Upload(media []byte, mediaType string) (*MediaUploadResul
 		}
 		chunk := media[start:end]
 
-		appendParams := &mediaAppendParams{
-			Command:      "APPEND",
-			MediaID:      mediaID,
-			MediaData:    base64.StdEncoding.EncodeToString(chunk),
-			SegmentIndex: segment,
-		}
-
-		resp, err = m.sling.New().Post("upload.json").BodyForm(appendParams).Receive(nil, apiError)
-
-		if relevantError(err, *apiError) != nil {
-			return nil, resp, relevantError(err, *apiError)
+		resp, err := m.UploadAppend(mediaID, segment, chunk, mediaType)
+		if err != nil {
+			return nil, resp, err
 		}
 	}
 
+	finalizeRes, resp, err := m.UploadFinalize(mediaID)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return finalizeRes, resp, nil
+}
+
+func (m *MediaService) UploadAppend(mediaID int64, segment int, chunk []byte, mediaType string) (*http.Response, error) {
+	appendParams := &mediaAppendParams{
+		Command:      "APPEND",
+		MediaID:      mediaID,
+		MediaData:    base64.StdEncoding.EncodeToString(chunk),
+		SegmentIndex: segment,
+	}
+
+	apiError := new(APIError)
+	resp, err := m.sling.New().Post("upload.json").BodyForm(appendParams).Receive(nil, apiError)
+
+	if relevantError(err, *apiError) != nil {
+		return resp, relevantError(err, *apiError)
+	}
+
+	return resp, nil
+}
+
+func (m *MediaService) UploadInit(totalBytes int, mediaType string) (int64, error) {
+	params := &mediaInitParams{
+		Command:    "INIT",
+		TotalBytes: totalBytes,
+		MediaType:  mediaType,
+	}
+	res := new(mediaInitResult)
+	apiError := new(APIError)
+
+	_, err := m.sling.New().Post("upload.json").BodyForm(params).Receive(res, apiError)
+
+	if relevantError(err, *apiError) != nil {
+		return 0, relevantError(err, *apiError)
+	}
+
+	return res.MediaID, nil
+}
+
+func (m *MediaService) UploadFinalize(mediaID int64) (*MediaUploadResult, *http.Response, error) {
 	finalizeParams := &mediaFinalizeParams{
 		Command: "FINALIZE",
 		MediaID: mediaID,
 	}
 	finalizeRes := new(MediaUploadResult)
+	apiError := new(APIError)
 
-	resp, err = m.sling.New().Post("upload.json").BodyForm(finalizeParams).Receive(finalizeRes, apiError)
+	resp, err := m.sling.New().Post("upload.json").BodyForm(finalizeParams).Receive(finalizeRes, apiError)
 
 	if relevantError(err, *apiError) != nil {
 		return nil, resp, relevantError(err, *apiError)
